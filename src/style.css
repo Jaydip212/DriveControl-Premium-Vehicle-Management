@@ -344,9 +344,118 @@ td {
   outline: none;
 }
 
+/* --- AUTHENTICATION (LOGIN) --- */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+    var(--bg-main);
+  overflow: hidden;
+}
+
+.auth-visual-side {
+  flex: 1.2;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 4rem;
+  background: #000;
+}
+
+.auth-visual-side::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
+  opacity: 0.6;
+  filter: brightness(0.7) contrast(1.1);
+  transition: transform 10s ease;
+}
+
+.auth-visual-side:hover::before {
+  transform: scale(1.05);
+}
+
+.auth-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg-main) 0%, transparent 70%);
+  z-index: 1;
+}
+
+.auth-visual-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.auth-visual-content h2 {
+  font-family: 'Outfit';
+  font-size: 3.5rem;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-form-side {
+  flex: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  background: var(--bg-main);
+  position: relative;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  z-index: 2;
+}
+
+.auth-card .input-group {
+  margin-bottom: 2rem;
+}
+
+.auth-card label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.auth-card input:focus {
+  border-color: var(--accent-primary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
 /* --- RESPONSIVE --- */
 @media (max-width: 1200px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .auth-visual-side { display: none; }
+  .auth-form-side { flex: 1; }
 }
 
 @media (max-width: 768px) {
