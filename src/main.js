@@ -83,33 +83,54 @@ async function render() {
     } else {
         const accessibleViews = getAccessibleViews()
         app.innerHTML = `
-            <div class="dashboard-layout fade-in">
-                <nav class="sidebar glass">
+            <div class="dashboard-layout">
+                <aside class="sidebar">
                     <div class="brand">
-                        <div style="background:var(--accent-primary); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
-                            <i data-lucide="shield" style="width:18px; color:white;"></i>
+                        <div class="brand-icon">
+                            <i data-lucide="shield" style="width:20px; color:white;"></i>
                         </div>
-                        DriveControl
+                        <span>DriveControl</span>
                     </div>
                     <ul class="nav-links">
-                        ${accessibleViews.map(view => `
-                            <li class="nav-item ${subView === view.id ? 'active' : ''}" data-view="${view.id}">
-                                <i data-lucide="${view.icon}"></i> ${view.label}
+                        ${accessibleViews.map(v => `
+                            <li class="nav-item ${subView === v.id ? 'active' : ''}" data-view="${v.id}">
+                                <i data-lucide="${v.icon}"></i>
+                                <span>${v.label}</span>
                             </li>
                         `).join('')}
                     </ul>
-                    <div class="user-footer" style="margin-top:auto;">
-                        <div style="padding:1rem; background:rgba(255,255,255,0.03); border-radius:12px; margin-bottom:1rem;">
-                            <p style="font-size:0.75rem; color:var(--text-secondary); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Session: ${userRole}</p>
-                            <p style="font-size:0.85rem; font-weight:600;">${isDemoMode ? 'Jaydip Jadhav' : 'Authenticated User'}</p>
+                    <div style="margin-top:auto; padding:1.5rem; background:rgba(255,255,255,0.03); border-radius:12px;">
+                        <div style="display:flex; align-items:center; gap:12px; margin-bottom:1rem;">
+                            <div style="width:40px; height:40px; background:var(--accent-primary); border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Outfit';">
+                                ${userRole[0].toUpperCase()}
+                            </div>
+                            <div style="font-size:0.8rem;">
+                                <p style="font-weight:700; color:white;">${userRole.toUpperCase()}</p>
+                                <p style="color:var(--text-secondary); font-size:0.7rem;">Jayvik Labs User</p>
+                            </div>
                         </div>
-                        <button id="logoutBtn" class="btn btn-outline" style="width:100%; border:1px solid var(--border-color); color: white; justify-content:center;">
-                             <i data-lucide="log-out"></i> Logout
+                        <button id="logoutBtn" class="btn btn-outline" style="width:100%; font-size:0.8rem; padding:0.6rem;">
+                            <i data-lucide="log-out" style="width:14px;"></i> Logout
                         </button>
                     </div>
-                </nav>
+                </aside>
                 <main class="content">
-                    ${await renderSubView()}
+                    <div id="subViewContent">
+                        ${await renderSubView()}
+                    </div>
+                    <footer style="margin-top:5rem; padding-top:2rem; border-top:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-secondary);">
+                        <p>© 2026 <span style="color:white; font-weight:600;">Jayvik Labs Systems</span>. All Rights Reserved.</p>
+                        <div style="display:flex; gap:20px;">
+                            <a href="#" style="color:var(--text-secondary); text-decoration:none;">Documentation</a>
+                            <a href="#" style="color:var(--text-secondary); text-decoration:none;">Privacy Policy</a>
+                            <a href="#" style="color:var(--text-secondary); text-decoration:none;">Support Desk</a>
+                        </div>
+                        <div style="display:flex; gap:12px;">
+                            <i data-lucide="github" style="width:16px; cursor:pointer;"></i>
+                            <i data-lucide="twitter" style="width:16px; cursor:pointer;"></i>
+                            <i data-lucide="linkedin" style="width:16px; cursor:pointer;"></i>
+                        </div>
+                    </footer>
                 </main>
             </div>
             <div id="modalContainer"></div>
@@ -124,13 +145,14 @@ function getAccessibleViews() {
         { id: 'dashboard-home', label: 'Dashboard', icon: 'layout-dashboard', roles: ['superadmin', 'admin', 'worker'] },
         { id: 'vehicles', label: 'Vehicles', icon: 'car', roles: ['superadmin', 'admin', 'worker'] },
         { id: 'drivers', label: 'Drivers', icon: 'users', roles: ['superadmin', 'admin', 'worker'] },
-        { id: 'workers', label: 'Workers', icon: 'wrench', roles: ['superadmin', 'admin'] },
+        { id: 'workers', label: 'Workers', icon: 'hard-hat', roles: ['superadmin', 'admin'] },
         { id: 'sales', label: 'Sales/Cashbook', icon: 'banknote', roles: ['superadmin', 'admin', 'worker'] },
         { id: 'inventory', label: 'Inventories', icon: 'package', roles: ['superadmin', 'admin'] },
         { id: 'banking', label: 'Bank & Finance', icon: 'wallet', roles: ['superadmin', 'admin'] },
         { id: 'salaries', label: 'Payroll', icon: 'coins', roles: ['superadmin', 'admin'] },
-        { id: 'expenses', label: 'Workshop Exp', icon: 'history', roles: ['superadmin', 'admin'] },
-        { id: 'settings', label: 'System Settings', icon: 'settings', roles: ['superadmin'] }
+        { id: 'expenses', label: 'Workshop Exp', icon: 'wrench', roles: ['superadmin', 'admin'] },
+        { id: 'settings', label: 'System Settings', icon: 'settings', roles: ['superadmin'] },
+        { id: 'system-guide', label: 'System Guide', icon: 'info', roles: ['superadmin', 'admin', 'worker'] }
     ]
     return allViews.filter(v => v.roles.includes(userRole))
 }
@@ -146,7 +168,8 @@ async function renderSubView() {
         'banking': renderBanking,
         'salaries': renderSalaries,
         'expenses': renderExpenses,
-        'settings': renderSettings
+        'settings': renderSettings,
+        'system-guide': renderSystemGuide
     }
     return views[subView] ? await views[subView]() : '<h2>View Not Found</h2>'
 }
@@ -156,38 +179,49 @@ async function renderSubView() {
 async function renderDashboard() {
     return `
         <header>
-            <h1 style="font-family: 'Outfit'; font-size:2.5rem;">Enterprise Overview</h1>
-            <p style="color: var(--text-secondary);">Business summary for Jayvik Labs Systems</p>
+            <h1 style="font-family: 'Outfit'; font-size:2.8rem; letter-spacing:-1px;">Enterprise Overview</h1>
+            <div style="display:flex; align-items:center; gap:10px; color: var(--text-secondary); margin-top:0.5rem;">
+                <span style="width:8px; height:8px; background:var(--success); border-radius:50%; box-shadow:0 0 10px var(--success);"></span>
+                Real-time business performance analytics
+            </div>
         </header>
-        <div class="stats-grid" style="margin-top: 2rem;">
-            ${renderStatCard('Total Assets', '₹45L', 'Fleet Value', 'success', 'car')}
-            ${renderStatCard('Cash in Hand', '₹1.24L', 'Today', 'success', 'banknote')}
-            ${renderStatCard('Bank Balance', '₹18.5L', 'Safe', 'success', 'wallet')}
-            ${renderStatCard('Exp. Month', '₹12K', 'Workshop', 'danger', 'history')}
+        <div class="stats-grid">
+            ${renderStatCard('Total Assets', '₹45.2L', '+12.5%', 'success', 'car')}
+            ${renderStatCard('Cash in Hand', '₹1.24L', 'Active', 'success', 'banknote')}
+            ${renderStatCard('Bank Balance', '₹18.5L', 'Verified', 'success', 'wallet')}
+            ${renderStatCard('Exp. Month', '₹12K', 'Predicted', 'danger', 'history')}
         </div>
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:1.5rem; margin-top:2rem;">
+        <div style="display:grid; grid-template-columns: 2.2fr 1fr; gap:1.5rem; margin-top:2rem;">
             <div class="glass" style="padding:2rem;">
-                <h3 style="margin-bottom:1.5rem; font-family:'Outfit';">Revenue vs Expenses</h3>
-                <div style="height:250px; display:flex; align-items:flex-end; gap:20px; padding-bottom:10px; border-bottom:1px solid var(--border-color);">
-                    <div style="flex:1; background:var(--accent-primary); height:85%; border-radius:6px; transition:height 0.5s;"></div>
-                    <div style="flex:1; background:var(--danger); height:30%; border-radius:6px; transition:height 0.5s;"></div>
-                    <div style="flex:1; background:var(--accent-primary); height:70%; border-radius:6px; transition:height 0.5s;"></div>
-                    <div style="flex:1; background:var(--danger); height:25%; border-radius:6px; transition:height 0.5s;"></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+                    <h3 style="font-family:'Outfit'; font-size:1.25rem;">Financial Trajectory</h3>
+                    <div style="display:flex; gap:15px; font-size:0.75rem;">
+                        <span style="display:flex; align-items:center; gap:6px;"><i style="color:var(--accent-primary); font-style:normal;">●</i> Revenue</span>
+                        <span style="display:flex; align-items:center; gap:6px;"><i style="color:var(--danger); font-style:normal;">●</i> Expenses</span>
+                    </div>
                 </div>
-                <div style="display:flex; justify-content:center; gap:20px; margin-top:15px; font-size:0.75rem;">
-                    <span><i style="color:var(--accent-primary)">●</i> Revenue</span>
-                    <span><i style="color:var(--danger)">●</i> Expenses</span>
+                <div style="height:280px; display:flex; align-items:flex-end; gap:25px; padding-bottom:10px; border-bottom:1px solid var(--border-color); padding: 0 1rem;">
+                    <div class="chart-bar" data-value="₹25L" style="background:linear-gradient(to top, var(--accent-primary), var(--accent-secondary)); height:85%;"></div>
+                    <div class="chart-bar" data-value="₹12K" style="background:linear-gradient(to top, #ef4444, #f87171); height:35%;"></div>
+                    <div class="chart-bar" data-value="₹18L" style="background:linear-gradient(to top, var(--accent-primary), var(--accent-secondary)); height:65%;"></div>
+                    <div class="chart-bar" data-value="₹14K" style="background:linear-gradient(to top, #ef4444, #f87171); height:40%;"></div>
+                    <div class="chart-bar" data-value="₹30L" style="background:linear-gradient(to top, var(--accent-primary), var(--accent-secondary)); height:95%;"></div>
+                    <div class="chart-bar" data-value="₹10K" style="background:linear-gradient(to top, #ef4444, #f87171); height:25%;"></div>
                 </div>
             </div>
             <div class="glass" style="padding:2rem;">
-                <h3 style="margin-bottom:1.5rem; font-family:'Outfit';">Low Stock Alerts</h3>
+                <h3 style="margin-bottom:1.5rem; font-family:'Outfit';">Critical Alerts</h3>
                 <div style="display:flex; flex-direction:column; gap:1rem;">
-                    ${MOCK_DATA.inventory.filter(i => i.quantity < i.min_stock + 1).map(i => `
-                        <div style="padding:10px; background:rgba(239, 68, 68, 0.05); border:1px solid rgba(239, 68, 68, 0.1); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
-                            <span style="font-size:0.85rem;">${i.part_name}</span>
-                            <span style="color:var(--danger); font-weight:700;">${i.quantity} left</span>
+                    ${MOCK_DATA.inventory.slice(0, 4).map(i => `
+                        <div style="padding:15px; background:rgba(239, 68, 68, 0.03); border:1px solid rgba(239, 68, 68, 0.1); border-radius:12px; display:flex; justify-content:space-between; align-items:center; transition:0.3s;" onmouseover="this.style.borderColor='rgba(239,68,68,0.3)'" onmouseout="this.style.borderColor='rgba(239,68,68,0.1)'">
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div style="width:10px; height:10px; background:var(--danger); border-radius:50%;"></div>
+                                <span style="font-size:0.85rem; font-weight:500;">${i.part_name}</span>
+                            </div>
+                            <span style="color:var(--danger); font-size:0.75rem; font-weight:800; background:rgba(239,68,68,0.1); padding:4px 8px; border-radius:6px;">${i.quantity} Left</span>
                         </div>
                     `).join('')}
+                    <button class="btn btn-outline" style="width:100%; margin-top:auto; font-size:0.8rem; border-style:dashed;">Order New Stock</button>
                 </div>
             </div>
         </div>
@@ -477,6 +511,73 @@ function attachLoginEvents() {
             init()
         }
     })
+}
+
+async function renderSystemGuide() {
+    return `
+        <header style="margin-bottom: 3rem;">
+            <h1 style="font-family:'Outfit'; font-size:2.5rem;">System Architecture</h1>
+            <p style="color:var(--text-secondary);">Enterprise technical guide for DriveControl Business Suite</p>
+        </header>
+
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:2rem;">
+            <div class="glass" style="padding:2.5rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:-20px; right:-20px; opacity:0.1;">
+                     <i data-lucide="car" style="width:120px; height:120px; color:var(--accent-primary);"></i>
+                </div>
+                <h3 style="font-family:'Outfit'; font-size:1.5rem; margin-bottom:1rem; color:var(--accent-primary);">1. Fleet Intelligence</h3>
+                <p style="color:var(--text-secondary); line-height:1.6; font-size:0.9rem; margin-bottom:1.5rem;">
+                    The core engine manages the lifecycle of taxis and cabs. It tracks registration numbers, fuel types, and real-time maintenance status via a central registry.
+                </p>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:0.85rem;">
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Automated Plate Recognition Logic</li>
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Odometer & Health Monitoring</li>
+                </ul>
+            </div>
+
+            <div class="glass" style="padding:2.5rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:-20px; right:-20px; opacity:0.1;">
+                     <i data-lucide="users" style="width:120px; height:120px; color:var(--accent-secondary);"></i>
+                </div>
+                <h3 style="font-family:'Outfit'; font-size:1.5rem; margin-bottom:1rem; color:var(--accent-secondary);">2. Workforce Management</h3>
+                <p style="color:var(--text-secondary); line-height:1.6; font-size:0.9rem; margin-bottom:1.5rem;">
+                    Handles the dual-stream workforce: Drivers and Internal Staff. Tracks licenses, phone records, and active/inactive status across the enterprise.
+                </p>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:0.85rem;">
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> License Expiry Tracking</li>
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Role Assignment & Verification</li>
+                </ul>
+            </div>
+
+            <div class="glass" style="padding:2.5rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:-20px; right:-20px; opacity:0.1;">
+                     <i data-lucide="banknote" style="width:120px; height:120px; color:var(--success);"></i>
+                </div>
+                <h3 style="font-family:'Outfit'; font-size:1.5rem; margin-bottom:1rem; color:var(--success);">3. Financial Ecosystem</h3>
+                <p style="color:var(--text-secondary); line-height:1.6; font-size:0.9rem; margin-bottom:1.5rem;">
+                    A comprehensive cashbook module that bridges Driver daily sales with Bank transactions and Payroll. Logic ensures a balanced ledger.
+                </p>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:0.85rem;">
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Real-time Bank Balance Reconciliation</li>
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Salary Ledger & Reference Generation</li>
+                </ul>
+            </div>
+
+            <div class="glass" style="padding:2.5rem; position:relative; overflow:hidden;">
+                <div style="position:absolute; top:-20px; right:-20px; opacity:0.1;">
+                     <i data-lucide="package" style="width:120px; height:120px; color:var(--warning);"></i>
+                </div>
+                <h3 style="font-family:'Outfit'; font-size:1.5rem; margin-bottom:1rem; color:var(--warning);">4. Inventory Core</h3>
+                <p style="color:var(--text-secondary); line-height:1.6; font-size:0.9rem; margin-bottom:1.5rem;">
+                    Spare parts monitoring system with stock alerts. Logic automatically flags parts that fall below the Minimum Stock Level (MSL).
+                </p>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:0.85rem;">
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Intelligent Stock Level Warnings</li>
+                    <li><i data-lucide="check-circle" style="width:14px; color:var(--success); vertical-align:middle; margin-right:8px;"></i> Part Coding & Unit Price Tracking</li>
+                </ul>
+            </div>
+        </div>
+    `
 }
 
 init()
