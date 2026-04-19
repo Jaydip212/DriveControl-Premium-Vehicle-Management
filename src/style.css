@@ -97,107 +97,30 @@ body {
   box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
 }
 
-/* Auth Pages */
-.auth-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 2rem;
-  background: radial-gradient(circle at top right, #1e1b4b, var(--bg-main));
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 450px;
-  padding: 3rem;
-  text-align: center;
-}
-
-.input-group {
-  margin-bottom: 1.5rem;
-  text-align: left;
-}
-
-.input-group label {
-  display: block;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
+.btn-outline {
+  background: transparent;
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  color: white;
-  outline: none;
-  transition: var(--transition);
-}
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
+  color: var(--text-primary);
 }
 
+/* Dashboard Structure Fix */
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
 .sidebar {
   width: 280px;
   height: 100vh;
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  position: sticky;
+  position: fixed; /* Fixed for enterprise feel */
+  left: 0;
   top: 0;
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.95);
   border-right: 1px solid var(--border-color);
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.brand {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.75rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 3rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.nav-links {
-  list-style: none;
-  flex: 1;
-}
-
-.nav-links li {
-  padding: 0.875rem 1.25rem;
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
-  cursor: pointer;
-  margin-bottom: 0.5rem;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.nav-links li:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-primary);
-}
-
-.nav-links li.active {
-  background: rgba(59, 130, 246, 0.1);
-  color: var(--accent-primary);
-  font-weight: 600;
 }
 
 .content {
@@ -205,117 +128,88 @@ body {
   margin-left: 280px;
   padding: 3rem;
   background: var(--bg-main);
+  min-height: 100vh;
 }
 
-.user-footer {
-  margin-top: auto;
-  border-top: 1px solid var(--border-color);
-  padding-top: 1.5rem;
-}
-
-/* Stats Grid */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.stat-card {
-  padding: 1.5rem;
-  border-radius: var(--radius-lg);
+/* Search UI */
+.search-container {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  align-items: center;
 }
 
-.stat-value {
-  font-size: 2rem;
-  font-weight: 700;
-  font-family: 'Outfit';
+.search-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.stat-label {
+.search-input-wrapper i {
+  position: absolute;
+  left: 1rem;
   color: var(--text-secondary);
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  width: 18px;
 }
 
-/* Vehicle Cards & Grid */
-.vehicle-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-.vehicle-card {
-  padding: 0;
-  overflow: hidden;
+.search-input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: white;
   transition: var(--transition);
 }
 
-.vehicle-card:hover {
-  transform: translateY(-5px);
+.search-input:focus {
   border-color: var(--accent-primary);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
 }
 
-.vehicle-img {
+/* Enterprise Tables */
+table {
   width: 100%;
-  height: 180px;
-  background: #1e293b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-spacing: 0;
+}
+
+thead th {
+  background: rgba(255, 255, 255, 0.02);
   color: var(--text-secondary);
-}
-
-.vehicle-info {
-  padding: 1.5rem;
-}
-
-.vehicle-title {
-  font-family: 'Outfit';
-  font-size: 1.25rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
+tbody tr {
+  transition: var(--transition);
+}
+
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Badges */
 .badge {
   padding: 0.25rem 0.75rem;
-  border-radius: 99px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
 }
 
-.badge-available { background: rgba(34, 197, 94, 0.1); color: var(--success); }
-.badge-maintenance { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+.badge-active, .badge-available { background: rgba(34, 197, 94, 0.1); color: var(--success); }
 .badge-on_trip { background: rgba(59, 130, 246, 0.1); color: var(--accent-primary); }
+.badge-maintenance, .badge-inactive { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
 
-/* Modal */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--transition);
-}
-
-.modal-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.modal-content {
-  width: 100%;
-  max-width: 500px;
-  padding: 2.5rem;
+/* Auth Expansion */
+.auth-container {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+    var(--bg-main);
 }
