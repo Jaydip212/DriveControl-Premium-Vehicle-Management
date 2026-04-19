@@ -96,7 +96,7 @@ The project follows a modular Single Page Application (SPA) architecture:
 ---
 
 <div align="center">
-Designed with ❤️ by <b>Jaydip Patel</b> for the Next Generation of Fleet Management.
+Designed with ❤️ by <b>Jaydip Jadhav</b> (Jayvik Labs) for the Next Generation of Fleet Management.
 <br><br>
-© 2026 DriveControl Systems. All Rights Reserved.
+© 2026 DriveControl Systems • Developed by Jayvik Labs. All Rights Reserved.
 </div>
