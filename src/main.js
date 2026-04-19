@@ -399,26 +399,53 @@ function attachDashboardEvents() {
 function renderLogin() {
     return `
         <div class="auth-container">
-            <div class="auth-card glass fade-in" style="box-shadow: 0 0 100px rgba(59, 130, 246, 0.15);">
-                <div style="margin-bottom:2rem; display:inline-block; padding:15px; background:rgba(255,255,255,0.03); border-radius:24px; border:1px solid var(--border-color);">
-                     <i data-lucide="shield" style="width:40px; height:40px; color:var(--accent-primary);"></i>
+            <div class="auth-visual-side">
+                <div class="auth-overlay"></div>
+                <div class="auth-visual-content fade-in">
+                    <span style="color:var(--accent-primary); font-weight:700; text-transform:uppercase; letter-spacing:3px; font-size:0.75rem;">Premium Experience</span>
+                    <h2>Intelligent Fleet Management</h2>
+                    <p style="color:rgba(255,255,255,0.6); line-height:1.6; font-size:1rem; margin-top:-0.5rem;">
+                        Command your entire business operations from a single high-performance dashboard. Built for scale, security, and absolute control.
+                    </p>
+                    <div style="display:flex; gap:20px; margin-top:3rem;">
+                        <div style="text-align:left;">
+                            <p style="font-size:1.5rem; font-weight:700; font-family:'Outfit';">₹45L+</p>
+                            <p style="font-size:0.65rem; color:var(--text-secondary); text-transform:uppercase;">Managed Assets</p>
+                        </div>
+                        <div style="width:1px; background:rgba(255,255,255,0.1);"></div>
+                        <div style="text-align:left;">
+                            <p style="font-size:1.5rem; font-weight:700; font-family:'Outfit';">99.9%</p>
+                            <p style="font-size:0.65rem; color:var(--text-secondary); text-transform:uppercase;">System Uptime</p>
+                        </div>
+                    </div>
                 </div>
-                <h1 style="font-family:'Outfit'; font-size:3rem; letter-spacing:-1px;">DriveControl</h1>
-                <p style="color:var(--text-secondary); margin-bottom:2.5rem;">Vehicle Management System • Jayvik Labs</p>
-                <form id="loginForm">
-                    <div class="input-group" style="text-align:left;">
-                        <label>Email Address</label>
-                        <input type="text" id="loginEmail" placeholder="${isDemoMode ? 'Type role: admin / superadmin / worker' : 'your@company.com'}" required>
+            </div>
+            <div class="auth-form-side">
+                <div class="auth-card fade-in">
+                    <div class="brand-logo">
+                         <i data-lucide="shield" style="width:32px; height:32px; color:var(--accent-primary);"></i>
                     </div>
-                    <div class="input-group" style="text-align:left;">
-                        <label>Password</label>
-                        <input type="password" id="loginPass" required>
+                    <h3 style="font-family:'Outfit'; font-size:2rem; margin-bottom:0.5rem;">Secure Login</h3>
+                    <p style="color:var(--text-secondary); font-size:0.9rem; margin-bottom:2.5rem;">Enter your credentials to access Jayvik Labs VMS</p>
+                    
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <label>Professional Email</label>
+                            <input type="text" id="loginEmail" placeholder="e.g. admin" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Security Password</label>
+                            <input type="password" id="loginPass" placeholder="••••••••" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:1.2rem; font-size:1rem; margin-top:1.5rem;">
+                            Establish Session <i data-lucide="arrow-right" style="width:18px;"></i>
+                        </button>
+                    </form>
+                    
+                    <div style="margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--border-color); text-align:center;">
+                        <p style="font-size:0.75rem; color:var(--text-secondary);">Enterprise Solution by <span style="color:white; font-weight:600;">Jayvik Labs</span></p>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:15px; font-size:1rem; margin-top:1rem;">
-                        Secure Session <i data-lucide="arrow-right" style="width:18px;"></i>
-                    </button>
-                    ${isDemoMode ? '<p style="margin-top:2rem; color:var(--accent-primary); font-size:0.7rem; font-weight:600; text-transform:uppercase; letter-spacing:1px;">Roles available: superadmin, admin, worker (Pass: any)</p>' : ''}
-                </form>
+                </div>
             </div>
         </div>
     `
