@@ -517,8 +517,9 @@ function attachLoginEvents() {
         } else {
             alert('Supabase is not initialized. Please check your .env keys.')
         }
-    })
 }
+
+async function renderSystemGuide() {
     return `
         <header style="margin-bottom: 3rem;">
             <h1 style="font-family:'Outfit'; font-size:2.5rem;">System Architecture</h1>
