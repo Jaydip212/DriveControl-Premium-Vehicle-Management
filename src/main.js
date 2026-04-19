@@ -491,29 +491,34 @@ function attachLoginEvents() {
         const email = document.querySelector('#loginEmail').value
         const pass = document.querySelector('#loginPass').value
         
-        if (isDemoMode) {
-            const roles = ['superadmin', 'admin', 'worker']
-            if (roles.includes(email.toLowerCase())) {
-                userRole = email.toLowerCase()
-                currentView = 'dashboard'
-                subView = 'dashboard-home'
-                render()
-            } else {
-                alert('For Demo, type a role in the Email field: superadmin, admin, or worker.')
-            }
+        // --- HYBRID LOGIN LOGIC ---
+        const demoRoles = ['superadmin', 'admin', 'worker']
+        
+        // If user enters a demo role name, bypass Supabase for quick testing
+        if (demoRoles.includes(email.toLowerCase())) {
+            userRole = email.toLowerCase()
+            currentView = 'dashboard'
+            subView = 'dashboard-home'
+            isDemoMode = true // Force demo mode for this session
+            render()
             return
         }
 
-        const { error } = await supabase.auth.signInWithPassword({ email, password: pass })
-        if (error) alert(error.message)
-        else {
-            currentView = 'dashboard'
-            init()
+        // Otherwise, attempt real Supabase authentication
+        if (supabase) {
+            const { error } = await supabase.auth.signInWithPassword({ email, password: pass })
+            if (error) {
+                alert('Live Login Failed: ' + error.message + '\n\nTry "superadmin" or "admin" for Demo Mode.')
+            } else {
+                currentView = 'dashboard'
+                isDemoMode = false
+                init()
+            }
+        } else {
+            alert('Supabase is not initialized. Please check your .env keys.')
         }
     })
 }
-
-async function renderSystemGuide() {
     return `
         <header style="margin-bottom: 3rem;">
             <h1 style="font-family:'Outfit'; font-size:2.5rem;">System Architecture</h1>
